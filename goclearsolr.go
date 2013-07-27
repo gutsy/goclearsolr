@@ -2,21 +2,36 @@ package main
 
 import (
 	"fmt"
-	"exec"
+	"os/exec"
 )
 
+/**
+ * One simple function to call a couple of curl commands
+ */
 func main() {
 
 	var instance string
+	var url string
 
+	//url is the url of the core you want to clear the indexing data for, ex: http://localhost:8983/solr/corename/update
+	//make sure to include /update at the end of the url
+	url = "http://localhost:8983/solr/corename/update"
 
+	//the instance variable is really only for logging purposes, ex: local, QA, UAT, Prod
 	instance = "local"
 	
 	fmt.Println("preparing to clear solr indexing for: " + instance)
 
-	//curl http://localhost:8983/solr/openIdeas/update --data '<delete><query>*:*</query></delete>' -H 'Content-type:text/xml; charset=utf-8'
-	//curl http://localhost:8983/solr/openIdeas/update --data '<commit/>' -H 'Content-type:text/xml; charset=utf-8'
-	
+	//first we clear
+	fmt.Println("deleting data")
+	exec.Command("curl", url, "--data", "<delete><query>*:*</query></delete>", "-H", "Content-type:text/xml; charset=utf-8").Run()
 
+	fmt.Println("data deleted")
 
+	//then we commit
+	fmt.Println("Now committing")
+	exec.Command("curl", url, "--data", "<commit/>", "-H", "Content-type:text/xml; charset=utf-8").Run()
+
+	//then we celebrate
+	fmt.Println("All done! Go have a beer!")
 }
