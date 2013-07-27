@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os/exec"
+	"strings"
 )
 
 /**
@@ -10,7 +11,7 @@ import (
  */
 func main() {
 
-	var instance string
+	
 	var url string
 
 	//url is the url of the core you want to clear the indexing data for, ex: http://localhost:8983/solr/corename/update
@@ -18,7 +19,11 @@ func main() {
 	url = "http://localhost:8983/solr/corename/update"
 
 	//the instance variable is really only for logging purposes, ex: local, QA, UAT, Prod
-	instance = "local"
+	var instance string
+	fmt.Printf("Which SOLR instance are we clearing? ")
+	fmt.Scan(&instance)
+
+	instance = strings.ToLower(instance)
 	
 	fmt.Println("preparing to clear solr indexing for: " + instance)
 
