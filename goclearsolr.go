@@ -11,28 +11,22 @@ import (
  */
 func main() {
 
-	
-	var url string
-
-	//url is the url of the core you want to clear the indexing data for, ex: http://localhost:8983/solr/corename/update
-	//make sure to include /update at the end of the url
-
-	//var urlMap map[string]string
-
+	//urlMap contains mapping of instance names to instance urls
+	//make sure to include /update in the solr url
 	urlMap := map[string]string{
 		"local": "http://localhost:8983/solr/corename/update",
 	}
 
-	//urlMap["local"] = "http://localhost:8983/solr/corename/update"
-
-	//the instance variable is really only for logging purposes, ex: local, QA, UAT, Prod
+	//the instance variable selects which url we're pulling out of the hashmap
 	var instance string
 	fmt.Printf("Which SOLR instance are we clearing? ")
 	fmt.Scan(&instance)
 
+	//you know, in case you're an all caps type of person. I suppose you could remove this if you gave the instances cased names
 	instance = strings.ToLower(instance)
 
-	url = urlMap[instance]
+	//assign the url value to a new variable
+	url := urlMap[instance]
 
 
 	if (url != ""){
@@ -51,6 +45,7 @@ func main() {
 		//then we celebrate
 		fmt.Println("All done! Go have a beer!")
 		} else {
+			//BZZZ ERROR
 			fmt.Println("No URL found for that instance, go update this script and try again")
 		}
 
