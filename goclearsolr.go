@@ -16,7 +16,14 @@ func main() {
 
 	//url is the url of the core you want to clear the indexing data for, ex: http://localhost:8983/solr/corename/update
 	//make sure to include /update at the end of the url
-	url = "http://localhost:8983/solr/corename/update"
+
+	//var urlMap map[string]string
+
+	urlMap := map[string]string{
+		"local": "http://localhost:8983/solr/corename/update",
+	}
+
+	//urlMap["local"] = "http://localhost:8983/solr/corename/update"
 
 	//the instance variable is really only for logging purposes, ex: local, QA, UAT, Prod
 	var instance string
@@ -24,19 +31,28 @@ func main() {
 	fmt.Scan(&instance)
 
 	instance = strings.ToLower(instance)
-	
-	fmt.Println("preparing to clear solr indexing for: " + instance)
 
-	//first we clear
-	fmt.Println("deleting data")
-	exec.Command("curl", url, "--data", "<delete><query>*:*</query></delete>", "-H", "Content-type:text/xml; charset=utf-8").Run()
+	url = urlMap[instance]
 
-	fmt.Println("data deleted")
 
-	//then we commit
-	fmt.Println("Now committing")
-	exec.Command("curl", url, "--data", "<commit/>", "-H", "Content-type:text/xml; charset=utf-8").Run()
+	if (url != ""){
+		fmt.Println("preparing to clear solr indexing for: " + instance + " at URL " + url)
 
-	//then we celebrate
-	fmt.Println("All done! Go have a beer!")
+		//first we clear
+		fmt.Println("deleting data")
+		exec.Command("curl", url, "--data", "<delete><query>*:*</query></delete>", "-H", "Content-type:text/xml; charset=utf-8").Run()
+
+		fmt.Println("data deleted")
+
+		//then we commit
+		fmt.Println("Now committing")
+		exec.Command("curl", url, "--data", "<commit/>", "-H", "Content-type:text/xml; charset=utf-8").Run()
+
+		//then we celebrate
+		fmt.Println("All done! Go have a beer!")
+		} else {
+			fmt.Println("No URL found for that instance, go update this script and try again")
+		}
+
+
 }
