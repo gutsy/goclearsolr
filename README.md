@@ -17,4 +17,3 @@ If you want to use this for multiple solr instances, simply copy and rename the 
 
 TODO: Make this one script that will take an argument for each instance, and store/pull the instance url/name from an array instead of needing multiple scripts. 
 
-Again, it's my first stab at Go so I'm just happy I pulled this off! Enjoy!
