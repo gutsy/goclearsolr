@@ -28,8 +28,7 @@ func main() {
 	//assign the url value to a new variable
 	url := urlMap[instance]
 
-
-	if (url != ""){
+	if url != "" {
 		fmt.Println("preparing to clear solr indexing for: " + instance + " at URL " + url)
 
 		//first we clear
@@ -44,10 +43,9 @@ func main() {
 
 		//then we celebrate
 		fmt.Println("All done! Go have a beer!")
-		} else {
-			//BZZZ ERROR
-			fmt.Println("No URL found for that instance, go update this script and try again")
-		}
-
+	} else {
+		//BZZZ ERROR
+		fmt.Println("No URL found for that instance, go update this script and try again")
+	}
 
 }
